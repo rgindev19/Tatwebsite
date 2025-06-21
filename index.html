@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turnaround Web System</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased p-4">
+    <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-xl p-8 mb-8">
+        <h1 class="text-4xl font-extrabold text-center text-gray-900 mb-8">Turnaround Management System</h1>
+        <p id="userIdDisplay" class="text-center text-sm text-gray-600 mb-4 no-print hidden">
+            <!-- User ID display is no longer relevant for local storage, so it's hidden -->
+        </p>
+
+        <!-- Input Form Section -->
+        <form id="turnaroundForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 no-print">
+            <!-- Item Description -->
+            <div class="col-span-1">
+                <label for="itemDescription" class="block text-sm font-medium text-gray-700 mb-1">ITEM DESCRIPTION</label>
+                <input type="text" id="itemDescription" name="itemDescription" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Total Quantity -->
+            <div class="col-span-1">
+                <label for="totalQty" class="block text-sm font-medium text-gray-700 mb-1">TOTAL QTY.</label>
+                <input type="number" id="totalQty" name="totalQty" required min="0"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- TCN # -->
+            <div class="col-span-1">
+                <label for="tcnNumber" class="block text-sm font-medium text-gray-700 mb-1">TCN #</label>
+                <input type="text" id="tcnNumber" name="tcnNumber" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Total Quantity Inspected -->
+            <div class="col-span-1">
+                <label for="totalQtyInspected" class="block text-sm font-medium text-gray-700 mb-1">TOTAL QTY. INSPECTED</label>
+                <input type="number" id="totalQtyInspected" name="totalQtyInspected" required min="0"
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Date & Time Received for QC -->
+            <div class="col-span-1">
+                <label for="dateTimeReceivedQC" class="block text-sm font-medium text-gray-700 mb-1">DATE & TIME RECEIVED FOR QC</label>
+                <input type="datetime-local" id="dateTimeReceivedQC" name="dateTimeReceivedQC" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Date & Time QC Start -->
+            <div class="col-span-1">
+                <label for="dateTimeQCStart" class="block text-sm font-medium text-gray-700 mb-1">DATE & TIME QC START</label>
+                <input type="datetime-local" id="dateTimeQCStart" name="dateTimeQCStart" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Date & Time QC Finished -->
+            <div class="col-span-1">
+                <label for="dateTimeQCFinished" class="block text-sm font-medium text-gray-700 mb-1">DATE & TIME QC FINISHED</label>
+                <input type="datetime-local" id="dateTimeQCFinished" name="dateTimeQCFinished" required
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+
+            <!-- Assembly Required -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3">
+                <label class="block text-sm font-medium text-gray-700 mb-2">ASSEMBLY REQUIRED</label>
+                <div class="mt-1 flex items-center space-x-6">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="assemblyRequired" value="Yes" class="form-radio h-4 w-4 text-blue-600" required>
+                        <span class="ml-2 text-gray-700">YES</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="assemblyRequired" value="No" class="form-radio h-4 w-4 text-blue-600">
+                        <span class="ml-2 text-gray-700">NO</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center space-x-4">
+                <button type="submit" id="submitButton"
+                        class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                    Add Item
+                </button>
+                <button type="button" id="cancelEditButton"
+                        class="px-8 py-3 bg-gray-400 text-white font-semibold rounded-lg shadow-md hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 transition duration-200 ease-in-out hidden">
+                    Cancel Edit
+                </button>
+            </div>
+        </form>
+
+        <!-- Filter and Search Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 no-print">
+            <div class="col-span-1">
+                <label for="monthFilter" class="block text-sm font-medium text-gray-700 mb-1">Filter by Month (Received for QC):</label>
+                <select id="monthFilter"
+                        class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <option value="all">All Months</option>
+                    <!-- Months will be dynamically populated here -->
+                </select>
+            </div>
+            <div class="col-span-2">
+                <label for="itemSearch" class="block text-sm font-medium text-gray-700 mb-1">Search by Item Description:</label>
+                <input type="text" id="itemSearch" placeholder="Type to search item description..."
+                       class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+        </div>
+
+        <!-- Download Report Button -->
+        <div class="flex justify-center mb-8 no-print">
+            <button id="downloadButton"
+                    class="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                Download Report
+            </button>
+        </div>
+
+        <!-- Display Table Section -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 mt-10 text-center">Current Turnaround Items</h2>
+        <div class="overflow-x-auto rounded-lg shadow-md">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg">ITEM DESCRIPTION</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TOTAL QTY.</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TCN #</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TOTAL QTY. INSPECTED</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DATE & TIME RECEIVED FOR QC</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DATE & TIME QC START</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DATE & TIME QC FINISHED</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ASSEMBLY REQUIRED</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TARGET EFFICIENCY (98%)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ACTUAL EFFICIENCY</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">EFFICIENCY RESULT</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">TURNAROUND TIME (HOURS)</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg no-print">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTableBody" class="bg-white divide-y divide-gray-200">
+                    <!-- Data will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <p class="text-center text-sm text-gray-500 mt-6 mb-8">
+            Data is persisted in your browser's Local Storage.
+        </p>
+
+        <!-- QA Performance Overview Section -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 mt-10 text-center">QA Performance Overview</h2>
+        <div id="qaOverview" class="bg-gray-50 p-6 rounded-lg shadow-inner mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-700">
+            <div class="flex flex-col items-center p-3 bg-white rounded-md shadow-sm">
+                <span class="text-sm font-medium">Total Records:</span>
+                <span id="totalRecords" class="text-2xl font-bold text-blue-600">0</span>
+            </div>
+            <div class="flex flex-col items-center p-3 bg-white rounded-md shadow-sm">
+                <span class="text-sm font-medium">Average Turnaround Time:</span>
+                <span id="avgTurnaroundTime" class="text-2xl font-bold text-blue-600">N/A</span>
+            </div>
+            <div class="flex flex-col items-center p-3 bg-white rounded-md shadow-sm">
+                <span class="text-sm font-medium">Average Actual Efficiency:</span>
+                <span id="avgActualEfficiency" class="text-2xl font-bold text-blue-600">N/A</span>
+            </div>
+            <div class="flex flex-col items-center p-3 bg-white rounded-md shadow-sm">
+                <span class="text-sm font-medium">Items Meeting Target:</span>
+                <span id="metTargetCount" class="text-2xl font-bold text-green-600">0</span>
+            </div>
+            <div class="flex flex-col items-center p-3 bg-white rounded-md shadow-sm">
+                <span class="text-sm font-medium">Items Below Target:</span>
+                <span id="belowTargetCount" class="text-2xl font-bold text-red-600">0</span>
+            </div>
+        </div>
+
+        <!-- Visual Analysis Section -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 mt-10 text-center">Visual Analysis: Turnaround Time Performance</h2>
+        <div class="bg-gray-50 p-6 rounded-lg shadow-inner">
+            <canvas id="turnaroundTimeChart"></canvas>
+            <p id="chartMessage" class="text-center text-sm text-gray-500 mt-4 hidden">No data available to display chart. Please add some items.</p>
+        </div>
+
+    </div>
+
+    <!-- Message Box for notifications -->
+    <div id="messageBox" class="message-box no-print"></div>
+
+    <!-- Chart.js CDN for visual analysis -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- SheetJS (xlsx) for Excel download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+</body>
+</html>

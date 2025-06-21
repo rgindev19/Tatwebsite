@@ -1,0 +1,102 @@
+/* Custom font for better aesthetics */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6; /* Light gray background */
+}
+/* Styling for the table headers for better readability */
+th {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 0.875rem; /* text-sm */
+    color: #4b5563; /* Gray-700 */
+    background-color: #e5e7eb; /* Gray-200 */
+    border-bottom: 2px solid #d1d5db; /* Gray-300 */
+    white-space: nowrap; /* Prevent wrapping for headers on screen */
+}
+/* Styling for table data cells */
+td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e5e7eb; /* Gray-200 */
+    font-size: 0.875rem; /* text-sm */
+    color: #374151; /* Gray-800 */
+    white-space: nowrap; /* Prevent wrapping for cells on screen */
+}
+/* Alternating row background for better readability */
+tbody tr:nth-child(even) {
+    background-color: #f9fafb; /* Lightest gray for even rows */
+}
+tbody tr:hover {
+    background-color: #e0f2fe; /* Blue-100 on hover */
+}
+.message-box {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+.message-box.show {
+    opacity: 1;
+}
+.message-box.error {
+    background-color: #f44336;
+}
+
+/* Print-specific styles */
+@media print {
+    body {
+        background-color: #fff; /* White background for print */
+        margin: 0;
+        padding: 0;
+    }
+    .no-print {
+        display: none !important; /* Hide elements not meant for print */
+    }
+    .max-w-7xl {
+        max-width: 100%; /* Use full width for print */
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed; /* Helps in controlling column widths for printing */
+    }
+    th, td {
+        padding: 5px 3px; /* Reduced padding for print to fit more content */
+        border: 1px solid #ddd; /* Add borders for print table */
+        white-space: normal !important; /* Crucial: Allow text to wrap in print table */
+        font-size: 0.65rem; /* Smaller font for print to fit more content */
+        word-wrap: break-word; /* Ensure long words break and wrap */
+        overflow-wrap: break-word; /* Alternative for word wrapping */
+    }
+    thead {
+        display: table-header-group; /* Repeat table header on each page */
+    }
+    tr {
+        page-break-inside: avoid; /* Avoid breaking rows across pages */
+    }
+    .bg-gray-50, .bg-white {
+        background-color: #fff; /* Ensure white background for print */
+    }
+    .rounded-xl, .rounded-lg, .rounded-md {
+        border-radius: 0; /* Remove rounded corners for print */
+    }
+    .shadow-lg, .shadow-inner, .shadow-sm {
+        box-shadow: none; /* Remove shadows for print */
+    }
+    /* Chart.js specific adjustments for printing */
+    #turnaroundTimeChart {
+        width: 100% !important; /* Ensure chart takes full width */
+        height: auto !important; /* Adjust height automatically */
+        max-height: none !important; /* No max height */
+        page-break-before: always; /* Start chart on a new page if table is long */
+    }
+}
